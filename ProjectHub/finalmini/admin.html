@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Project Hub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6); /* Fallback for background overlay */
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 15px 8%;
+            background: white; /* Adjust background color as per your design needs */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid #eee; /* Optional: Add a border at the bottom of the header */
+        }
+
+        .logo-img img {
+            max-height: 50px; /* Adjust as per your design needs */
+        }
+
+        .navbar {
+            display: flex;
+        }
+
+        .navbar a {
+            font-size: 18px;
+            color: #222;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 0 20px;
+            transition: 0.3s;
+            text-align: end;
+        }
+
+        .navbar a.active {
+            color: #1743e3;
+        }
+
+        .video-background {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
+        .login-container {
+            max-width: 400px;
+            padding: 20px;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.8); /* Translucent background */
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); /* White shadow */
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        form {
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.9); /* Translucent input background */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #3498db;
+            border: 2px solid #3498db;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: background-color 0.3s, color 0.3s;
+            display: block;
+            margin: 0 auto;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #3498db;
+            color: #fff;
+        }
+
+        .bottom-section {
+            margin-top: 10px;
+        }
+
+        .bottom-section a {
+            text-decoration: none;
+            margin: 0 10px;
+            color: #3498db;
+        }
+
+        .bottom-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 2;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.8);
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-img">
+            <img src="vvit logo.png" alt="Logo">
+        </div>
+        <nav class="navbar">
+            <a href="home.html" >Home</a>
+            <a href="user.php">Projects</a>
+            <a href="review.html">Internships</a>
+            <a href="admin.html" class="active">Admin</a>
+        </nav>
+    </header>
+
+    <video class="video-background" autoplay muted loop>
+        <source src="vvitvideo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="login-container">
+        <form id="loginForm" method="post" action="login.php">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" name="username" id="username">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div class="input-group">
+                <input type="submit" class="btn" value="Login">
+            </div>
+            <div class="bottom-section">
+                <p>Not yet a member? <a href="register.php">Sign up</a></p>
+            </div>
+        </form>
+    </div>
+
+    <!-- The Modal for Error -->
+    <div id="errorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="errorModal">&times;</span>
+            <p>Invalid username or password. Please try again.</p>
+        </div>
+    </div>
+
+    <!-- The Modal for Success -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <span class="close" data-modal="successModal">&times;</span>
+            <p>Login successful! Redirecting...</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            var formData = new FormData(this);
+
+            fetch('login.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'error') {
+                    var modal = document.getElementById('errorModal');
+                    modal.style.display = 'block';
+                } else if (data.status === 'success') {
+                    var modal = document.getElementById('successModal');
+                    modal.style.display = 'block';
+                    setTimeout(() => {
+                        window.location.href = 'success.php';
+                    }, 500); // Redirect after 0.5 seconds
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        document.querySelectorAll('.close').forEach(item => {
+            item.onclick = function() {
+                var modalId = this.getAttribute('data-modal');
+                var modal = document.getElementById(modalId);
+                modal.style.display = 'none';
+            }
+        });
+
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
